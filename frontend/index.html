@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Knowledge Assistant</title>
+
+    <!-- Google Font -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Markdown -->
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script src="./script.js"></script>
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+
+<div class="backgroundGlow"></div>
+
+<div class="container">
+
+    <!-- ======================================= -->
+    <!-- Header -->
+    <!-- ======================================= -->
+
+    <header>
+
+        <div class="logo">
+
+            🧠
+
+        </div>
+
+        <div>
+
+            <h1>
+
+                AI Knowledge Assistant
+
+            </h1>
+
+            <p>
+
+                Chat • Extract • Summarize PDFs using AI
+
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ======================================= -->
+    <!-- Upload Card -->
+    <!-- ======================================= -->
+
+    <section class="uploadCard">
+
+        <h2>
+
+            Upload Your PDF
+
+        </h2>
+
+        <p>
+
+            Upload a PDF once and use every AI feature instantly.
+
+        </p>
+
+        <div class="uploadArea">
+
+            <input
+
+                type="file"
+
+                id="pdfFile"
+
+                accept=".pdf"
+
+            >
+
+            <button
+
+                id="uploadBtn"
+
+                onclick="uploadPDF()">
+
+                📄 Upload PDF
+
+            </button>
+
+        </div>
+
+        <div id="uploadStatus">
+
+        </div>
+
+    </section>
+
+    <!-- ======================================= -->
+    <!-- Navigation -->
+    <!-- ======================================= -->
+
+    <nav class="tabs">
+
+        <button
+
+            class="tab active"
+
+            onclick="showTab('chat')">
+
+            💬 Chat
+
+        </button>
+
+        
+
+        <button
+
+            class="tab"
+
+            onclick="showTab('summary')">
+
+            📚 Notes Summary
+
+        </button>
+
+    </nav>
+
+    <!-- ======================================= -->
+    <!-- Chat -->
+    <!-- ======================================= -->
+
+    <section
+
+        id="chatTab"
+
+        class="tabContent">
+
+        <div class="card">
+
+            <div class="sectionHeader">
+
+                <h2>
+
+                    💬 Chat with PDF
+
+                </h2>
+
+                <button
+
+                    class="secondaryButton"
+
+                    onclick="clearChat()">
+
+                    Clear Chat
+
+                </button>
+
+            </div>
+
+            <div id="chatBox">
+
+                <div class="welcomeMessage">
+
+                    <div class="botAvatar">
+
+                        🤖
+
+                    </div>
+
+                    <div class="welcomeText">
+
+                        <h3>
+
+                            Welcome!
+
+                        </h3>
+
+                        <p>
+
+                            Upload a PDF and ask me anything about it.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="chatInputArea">
+
+                <input
+
+                    id="question"
+
+                    type="text"
+
+                    placeholder="Ask anything about your PDF..."
+
+                >
+
+                <button
+
+                    class="sendButton"
+
+                    onclick="askQuestion()">
+
+                    ➜
+
+                </button>
+
+            </div>
+
+            <div class="exportButtons">
+
+                <button
+
+                    onclick="exportChat()">
+
+                    📥 Export Chat
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ======================================= -->
+    <!-- AI FORM FILLER -->
+    <!-- ======================================= -->
+
+    <section
+        id="extractTab"
+        class="tabContent"
+        style="display:none;">
+
+        <div class="card">
+
+            <div class="sectionHeader">
+
+                <h2>
+
+                    📝 AI Form Filler
+
+                </h2>
+
+                <button
+                    class="secondaryButton"
+                    onclick="exportExtraction()">
+
+                    📥 Export
+
+                </button>
+
+            </div>
+
+            <p class="sectionDescription">
+
+                Enter the fields you want to extract from the uploaded PDF.
+
+            </p>
+
+            <input
+                id="fields"
+                class="modernInput"
+                type="text"
+                placeholder="Example: name, college, email, phone, authors">
+
+            <div class="hint">
+
+                Press <b>Enter</b> to extract information.
+
+            </div>
+
+            <div
+                id="extractedResult"
+                class="resultCard">
+
+                <div class="placeholder">
+
+                    Extracted information will appear here.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ======================================= -->
+    <!-- NOTES SUMMARY -->
+    <!-- ======================================= -->
+
+    <section
+        id="summaryTab"
+        class="tabContent"
+        style="display:none;">
+
+        <div class="card">
+
+            <div class="sectionHeader">
+
+                <h2>
+
+                    📚 Notes Summarizer
+
+                </h2>
+
+                <button
+                    class="secondaryButton"
+                    onclick="exportSummary()">
+
+                    📥 Export
+
+                </button>
+
+            </div>
+
+            <p class="sectionDescription">
+
+                Select the summary style.
+
+            </p>
+
+            <select
+                id="summaryType"
+                class="modernSelect">
+
+                <option value="bullet">
+
+                    Bullet Summary
+
+                </option>
+
+                <option value="paragraph">
+                        Key Terminology
+                        </option>
+
+                <option value="executive">
+
+                    Executive Summary
+
+                </option>
+
+            </select>
+
+            <div class="hint">
+
+                Press <b>Enter</b> to generate the summary.
+
+            </div>
+
+            <div
+                id="summaryResult"
+                class="resultCard">
+
+                <div class="placeholder">
+
+                    AI generated summary will appear here.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ======================================= -->
+    <!-- FOOTER -->
+    <!-- ======================================= -->
+
+    <footer>
+
+        <div class="footerLeft">
+
+            <h3>
+
+                AI Knowledge Assistant
+
+            </h3>
+
+            <p>
+
+                Intelligent PDF Chat • Key Terminology Classification • Notes Summarization
+
+            </p>
+
+        </div>
+
+        <div class="footerRight">
+
+            <div class="statCard">
+
+                <span>
+
+                    Developed by <b>ojass404</b>
+
+                </span>
+
+            </div>
+
+            <div class="statCard">
+
+                <span>
+
+                    📄
+
+                </span>
+
+                <p>
+
+                    RAG + ChromaDB
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+</div>
+
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const questionInput = document.getElementById("question");
+
+    if(questionInput){
+
+        questionInput.addEventListener("keydown", function(e){
+
+            if(e.key==="Enter"){
+
+                e.preventDefault();
+
+                askQuestion();
+
+            }
+
+        });
+
+    }
+
+    const fieldsInput=document.getElementById("fields");
+
+    if(fieldsInput){
+
+        fieldsInput.addEventListener("keydown", function(e){
+
+            if(e.key==="Enter"){
+
+                e.preventDefault();
+
+                extractInformation();
+
+            }
+
+        });
+
+    }
+
+    const summarySelect=document.getElementById("summaryType");
+
+    if(summarySelect){
+
+        summarySelect.addEventListener("keydown", function(e){
+
+            if(e.key==="Enter"){
+
+                e.preventDefault();
+
+                generateSummary();
+
+            }
+
+        });
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>

@@ -9,4 +9,7 @@ ollama
 python-dotenv
 numpy
 requests
-reportlab
+
+torch==2.7.1+cpu
+torchvision==0.22.1+cpu
+torchaudio==2.7.1+cpu
