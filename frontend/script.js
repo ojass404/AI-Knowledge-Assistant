@@ -2,7 +2,7 @@
 // Backend API
 // ======================================================
 
-const API = "http://127.0.0.1:8000";
+const API = "https://ai-knowledge-assistant-jrf1.onrender.com";
 
 // ======================================================
 // Upload PDF
@@ -441,32 +441,10 @@ async function generateSummary() {
 function showTab(tab) {
 
     document.getElementById("chatTab").style.display = "none";
+    document.getElementById("extractTab").style.display = "none";
     document.getElementById("summaryTab").style.display = "none";
 
-    if (tab === "chat") {
-
-        document.getElementById(
-            "chatTab"
-        ).style.display = "block";
-
-    }
-
-    if (tab === "extract") {
-
-        document.getElementById(
-            "extractTab"
-        ).style.display = "block";
-
-    }
-
-    if (tab === "summary") {
-
-        document.getElementById(
-            "summaryTab"
-        ).style.display = "block";
-
-    }
-
+    document.getElementById(tab + "Tab").style.display = "block";
 }
 
 // ======================================================
