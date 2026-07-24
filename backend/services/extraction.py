@@ -1,6 +1,7 @@
 import json
 import re
 import os
+from urllib import response
 from groq import Groq
 client = Groq(
     api_key=os.getenv("GROQ_API_KEY")
@@ -58,15 +59,22 @@ Rules:
 7. Do not use markdown.
 """
 
-    response = client.chat(
-        model=os.getenv("MODEL_NAME"),
-        messages=[
-            {
-                "role": "system",
-                "content": prompt
-            }
-        ]
-    )
+    response = client.chat.completions.create(
+    model=os.getenv("MODEL_NAME", "llama-3.3-70b-versatile"),
+    messages=[
+        {
+            "role": "system",
+            "content": "You are an expert PDF information extraction assistant. Always return valid JSON only."
+        },
+        {
+            "role": "user",
+            "content": prompt
+        }
+    ],
+    temperature=0
+)
+
+    text = response.choices[0].message.content
 
     text = text.replace("```json", "")
     text = text.replace("```", "")
