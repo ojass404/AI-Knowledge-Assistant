@@ -1,9 +1,26 @@
-from ollama import chat
+from groq import Groq
+
+from config import GROQ_API_KEY, MODEL_NAME
 
 from services.vectordb import search_documents
 
+# --------------------------------------------------
+# Initialize Groq Client
+# --------------------------------------------------
+
+client = Groq(
+    api_key=GROQ_API_KEY
+)
+
+# --------------------------------------------------
+# Conversation History
+# --------------------------------------------------
+
 conversation_history = []
 
+# --------------------------------------------------
+# Ask Question
+# --------------------------------------------------
 
 def ask_question(question):
 
@@ -37,32 +54,36 @@ Content:
     # -----------------------------
 
     messages = [
-    {
-        "role": "system",
-        "content": (
-            """
+        {
+            "role": "system",
+            "content": """
 You are an AI Knowledge Assistant.
 
 Answer naturally.
 
-Use only the retrieved context.
+Use ONLY the retrieved context.
 
-Do NOT answer in JSON unless the user explicitly asks for JSON.
+If the answer is not present in the context,
+reply politely that the information is not available
+in the uploaded document.
+
+Do NOT make up facts.
+
+Do NOT answer in JSON unless the user explicitly asks.
 
 Explain concepts in normal English.
 
-Use bullet points when appropriate.
+Use bullet points whenever appropriate.
 """
-        )
-    }
-]
+        }
+    ]
+
     messages.extend(conversation_history)
 
-    messages.append({
-
-        "role": "user",
-
-        "content": f"""
+    messages.append(
+        {
+            "role": "user",
+            "content": f"""
 Context:
 
 {context}
@@ -71,34 +92,44 @@ Question:
 
 {question}
 """
+        }
+    )
 
-    })
+    # -----------------------------
+    # Generate Response
+    # -----------------------------
 
-    response = chat(
+    response = client.chat.completions.create(
 
-        model="llama3.2",
+        model=MODEL_NAME,
 
-        messages=messages
+        messages=messages,
+
+        temperature=0.3,
+
+        max_tokens=1024
 
     )
 
-    answer = response["message"]["content"]
+    answer = response.choices[0].message.content
 
-    conversation_history.append({
+    # -----------------------------
+    # Save Conversation
+    # -----------------------------
 
-        "role": "user",
+    conversation_history.append(
+        {
+            "role": "user",
+            "content": question
+        }
+    )
 
-        "content": question
-
-    })
-
-    conversation_history.append({
-
-        "role": "assistant",
-
-        "content": answer
-
-    })
+    conversation_history.append(
+        {
+            "role": "assistant",
+            "content": answer
+        }
+    )
 
     return {
 
