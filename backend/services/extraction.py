@@ -1,7 +1,10 @@
 import json
 import re
-
-from ollama import chat
+import os
+from groq import Groq
+client = Groq(
+    api_key=os.getenv("GROQ_API_KEY")
+)
 
 from services.vectordb import search_documents
 
@@ -55,25 +58,15 @@ Rules:
 7. Do not use markdown.
 """
 
-    response = chat(
-        model="llama3.2",
+    response = client.chat(
+        model=os.getenv("MODEL_NAME"),
         messages=[
             {
                 "role": "system",
-                "content": (
-                    "You are a JSON generator. "
-                    "Always return valid JSON only. "
-                    "Never explain your answer."
-                )
-            },
-            {
-                "role": "user",
                 "content": prompt
             }
         ]
     )
-
-    text = response["message"]["content"]
 
     text = text.replace("```json", "")
     text = text.replace("```", "")

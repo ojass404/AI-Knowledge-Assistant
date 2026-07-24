@@ -5,7 +5,7 @@ pydantic
 chromadb
 sentence-transformers
 pymupdf
-ollama
+groq
 python-dotenv
 numpy
 requests

@@ -1,4 +1,6 @@
-from groq import Groq
+
+
+import os
 
 from config import GROQ_API_KEY, MODEL_NAME
 
@@ -7,9 +9,9 @@ from services.vectordb import search_documents
 # --------------------------------------------------
 # Initialize Groq Client
 # --------------------------------------------------
-
+from groq import Groq
 client = Groq(
-    api_key=GROQ_API_KEY
+    api_key=os.getenv("GROQ_API_KEY")
 )
 
 # --------------------------------------------------
