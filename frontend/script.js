@@ -2,7 +2,7 @@
 // Backend API
 // ======================================================
 
-const API = "https://ai-knowledge-assistant-jrf1.onrender.com";
+const API_URL = "https://ai-knowledge-assistant-jrf1.onrender.com";
 
 // ======================================================
 // Upload PDF
@@ -29,7 +29,7 @@ async function uploadPDF() {
 
     try {
 
-        const response = await fetch(API + "/upload", {
+        const response = await fetch(API_URL + "/upload", {
 
             method: "POST",
 
@@ -249,7 +249,7 @@ async function askQuestion() {
 
     try {
 
-        const response = await fetch(API + "/chat", {
+        const response = await fetch(API_URL + "/chat", {
 
             method: "POST",
 
@@ -295,7 +295,7 @@ async function clearChat() {
 
     try {
 
-        await fetch(API + "/clear-chat", {
+        await fetch(API_URL + "/clear-chat", {
 
             method: "POST"
 
@@ -337,7 +337,7 @@ async function extractInformation() {
 
     try {
 
-        const response = await fetch(API + "/extract", {
+        const response = await fetch(API_URL + "/extract", {
 
             method: "POST",
 
@@ -394,7 +394,7 @@ async function generateSummary() {
     try {
 
         const response =
-            await fetch(API + "/summarize", {
+            await fetch(API_URL + "/summarize", {
 
                 method: "POST",
 
@@ -540,7 +540,7 @@ async function exportChat() {
 
     const chat = document.getElementById("chatBox").innerText;
 
-    const response = await fetch(API + "/export/pdf", {
+    const response = await fetch(API_URL + "/export/pdf", {
 
         method: "POST",
 
@@ -580,7 +580,7 @@ async function exportSummary() {
 
     const summary = document.getElementById("summaryResult").innerText;
 
-    const response = await fetch(API + "/export/pdf", {
+    const response = await fetch(API_URL + "/export/pdf", {
 
         method: "POST",
 
@@ -624,7 +624,7 @@ async function exportExtraction() {
         ).innerText;
 
     const response =
-        await fetch(API + "/export/pdf", {
+        await fetch(API_URL + "/export/pdf", {
 
             method: "POST",
 
