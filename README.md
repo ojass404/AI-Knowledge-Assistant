@@ -1,2 +1,10 @@
 # AI-Knowledge-Assistant
-Intelligent PDF chatbot using Retrieval-Augmented Generation (RAG), FastAPI, ChromaDB, llama 3.2, and Docker.
+
+🌐 Live Demo:
+https://superb-beignet-d4f4a5.netlify.app/
+
+🚀 Backend API:
+https://ai-knowledge-assistant-jrf1.onrender.com
+
+📚 API Docs:
+https://ai-knowledge-assistant-jrf1.onrender.com/docs
